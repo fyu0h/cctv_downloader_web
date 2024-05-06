@@ -1,1 +1,4 @@
-`pip install ffmpeg`
+`
+pip install -r requirements.txt
+pip install ffmpeg
+`
