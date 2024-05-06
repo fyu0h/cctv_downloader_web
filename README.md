@@ -4,4 +4,4 @@ pip install ffmpeg
 python3 app.py
 ```
 
-.sh定时清理/downloadmulu
+.sh定时清理/download目录
