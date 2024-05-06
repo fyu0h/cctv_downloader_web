@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>央视影音下载器</title>
+  <link rel="icon" href="https://img2.imgtp.com/2024/05/05/aHC7bxiY.jpg" type="image/png">
+  <style>
+    .loader {
+        border: 6px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 6px solid #3498db;
+        margin: 0 auto;
+        width: 40px;
+        height: 40px;
+        animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .hidden {
+        display: none;
+    }
+    img {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 20px;
+    }
+    h1 {
+        text-align: center;
+    }
+    p {
+        line-height: 2.5;
+        white-space: nowrap;
+        text-align: center;
+    }
+    .auto-shrink {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis; /* 当文字过长时显示省略号 */
+        font-size: 16px; /* 默认字体大小 */
+    }
+
+    /* 在需要时动态调整字体大小 */
+    @media (max-width: 600px) {
+        .auto-shrink {
+            font-size: calc(16px * 0.9); /* 80% 的原始字体大小 */
+        }
+    }
+
+    @media (max-width: 400px) {
+        .auto-shrink {
+            font-size: calc(16px * 0.8); /* 60% 的原始字体大小 */
+        }
+    }
+
+    a {
+        color: #42b983;
+    }
+
+    .input-container {
+        width: 80%; /* 或者使用任何其他你想要的宽度 */
+        margin: 0 auto; /* 水平居中 */
+    }
+
+    .input-field {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 10px;
+        border: 1px solid #ccc;
+        display: block; /* 确保输入框独占一行 */
+        margin-bottom: 20px;
+        text-align: center;
+        border-radius: 6px;
+        border: 1px solid #ccc; /* 默认边框样式 */
+        transition: border-color 0.3s; /* 添加过渡效果，使边框颜色变化更平滑 */
+    }
+    .input-field:hover {
+        border-color: #007bff; /* 鼠标悬停时的边框颜色 */
+    }
+    .input-field:focus {
+        border-color: #007bff; /* 输入框选中时的边框颜色 */
+        outline: none; /* 移除默认的外部轮廓样式 */
+    }
+
+    #dl_btn { /* 按钮美化 */
+        width: 140px; /* 宽度 */
+        height: 40px; /* 高度 */
+        border-width: 0px; /* 边框宽度 */
+        border-radius: 6px; /* 边框半径 */
+        background: #1E90FF; /* 背景颜色 */
+        cursor: pointer; /* 鼠标移入按钮范围时出现手势 */
+        outline: none; /* 不显示轮廓线 */
+        font-family: Microsoft YaHei; /* 设置字体 */
+        color: white; /* 字体颜色 */
+        font-size: 17px; /* 字体大小 */
+        margin-bottom: 20px;
+        display: block;
+        margin: 20px auto;
+    }
+    #dl_btn:hover { /* 鼠标移入按钮范围时改变颜色 */
+        background: #5599FF;
+    }
+
+    button {
+        /* 设置背景色 */
+        background-color: #007bff;
+        /* 设置文本颜色 */
+        color: white;
+        /* 设置边框样式 */
+        border: none;
+        /* 设置边框圆角 */
+        border-radius: 4px;
+        /* 设置内边距 */
+        padding: 10px 20px;
+        /* 设置光标样式 */
+        cursor: pointer;
+        /* 设置过渡效果 */
+        transition: background-color 0.3s ease;
+    }
+
+    /* 悬停样式 */
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    /* 按钮点击时的样式 */
+    button:active {
+        background-color: #003d80;
+    }
+
+
+    /** Table 表格样式 **/
+    .info_table {
+        border-collapse: collapse;
+        width: 95%;
+        margin: 0 auto;
+        border: 1px solid #c6c6c6 !important;
+        margin-bottom: 20px;
+    }
+    .info_table th {
+        border-collapse: collapse;
+        border-right: 1px solid #c6c6c6 !important;
+        border-bottom: 1px solid #c6c6c6 !important;
+        background-color: #ddeeff !important;
+        padding: 5px 9px;
+        font-size: 14px;
+        font-weight: normal;
+        text-align: center;
+    }
+    .info_table td {
+        border-collapse: collapse;
+        border-right: 1px solid #c6c6c6 !important;
+        border-bottom: 1px solid #c6c6c6 !important;
+        padding: 5px 9px;
+        font-size: 12px;
+        font-weight: normal;
+        text-align: center;
+        word-break: break-all;
+    }
+    .info_table tr:nth-child(odd) {
+        background-color: #fff !important;
+    }
+    .info_table tr:nth-child(even) {
+        background-color: #f8f8f8 !important;
+    }
+    .info_table {
+        opacity: 0;  /* 初始透明度设置为0，完全透明 */
+        visibility: hidden;  /* 使元素不可见且不占据空间 */
+        transform: translateY(20px); /* 初始向下位移20px */
+        transition: opacity 0.5s ease, transform 0.5s ease, visibility 0s 0.5s; /* 过渡效果 */
+    }
+
+    .info_table.show {
+        opacity: 1;  /* 目标透明度为1，完全不透明 */
+        visibility: visible;  /* 使元素可见并占据空间 */
+        transform: translateY(0); /* 恢复到原位 */
+        transition: opacity 0.5s ease, transform 0.5s ease; /* 过渡效果，visibility不需要延迟 */
+    }
+    /* 新增行的初始样式 */
+    .info_table_row {
+        opacity: 0;  /* 开始时不可见 */
+        transform: translateY(-10px); /* 开始时向上移动10px */
+        transition: opacity 0.5s ease, transform 0.5s ease; /* 过渡效果 */
+    }
+
+    /* 完全显示的样式 */
+    .info_table_row.show {
+        opacity: 1;  /* 最终可见 */
+        transform: translateY(0); /* 恢复到原位 */
+    }
+  </style>
+</head>
+<body>
+<div class="cntv_downloader">
+  <img alt="logo" src="https://img2.imgtp.com/2024/05/05/aHC7bxiY.jpg" width="150">
+  <div class="input-container">
+    <input type="text" placeholder="请输入下载链接" class="input-field" id="video_url">
+  </div>
+    <button onclick="downloadVideo()" id="dl_btn">获取视频</button>
+    <div class="loader hidden" id="loader"></div>
+    <p id="download_result"></p>
+    <table class="info_table" id="info_table">
+      <thead>
+        <tr>
+          <th>序号</th>
+          <th>视频标题</th>
+          <th>源网站</th>
+          <th>获取文件</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- 可以添加更多行 -->
+      </tbody>
+    </table>
+</div>
+
+<script>
+  function downloadVideo() {
+    const input = document.getElementById('video_url');
+    const url = input.value;
+    document.getElementById('loader').classList.remove('hidden'); // 显示加载动画
+    document.getElementById('download_result').innerText = ''; // 清除之前的下载结果
+
+    fetch('/download', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: 'url=' + encodeURIComponent(url)
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('loader').classList.add('hidden'); // 隐藏加载动画
+        if (data.error) {
+            document.getElementById('download_result').innerText = data.error;
+        } else {
+            document.getElementById('download_result').innerText = '视频下载成功！';
+            updateTable(data);
+            updateRowNumbers();
+            document.getElementById('download_result').scrollIntoView({ behavior: 'smooth' });
+            const infoTable = document.getElementById('info_table');
+            infoTable.classList.add('show'); // 触发显示动画
+        }
+        input.value = ''; // 清空输入框
+    }).catch(error => {
+        document.getElementById('loader').classList.add('hidden'); // 隐藏加载动画
+        document.getElementById('download_result').innerText = '发生错误：' + error.message;
+        input.value = ''; // 清空输入框
+    });
+  }
+
+  function updateTable(videoData) {
+    const table = document.getElementById('info_table').getElementsByTagName('tbody')[0];
+    const newRow = table.insertRow(0); // 新增行总是添加在表格的最顶部
+    newRow.className = 'info_table_row'; // 添加动画效果的类
+    newRow.innerHTML = `
+        <td></td> <!-- 空白单元格，稍后更新行号 -->
+        <td>${videoData.title}</td>
+        <td><a href="${videoData.url}" target="_blank">${videoData.url}</a></td>
+        <td><a href="${videoData.download_url}" download>下载</a></td>
+    `;
+    updateRowNumbers(); // 更新行号
+    setTimeout(() => newRow.classList.add('show'), 10); // 稍微延迟添加 show 类来确保动画触发
+}
+
+  function updateRowNumbers() {
+      const rows = document.getElementById('info_table').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+      for (let i = 0; i < rows.length; i++) {
+          rows[i].cells[0].innerText = i + 1; // 设置行号
+      }
+
+  }
+</script>
+</body>
+</html>
