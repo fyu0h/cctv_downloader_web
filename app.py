@@ -1,7 +1,15 @@
 # app.py
 # -*- coding:utf-8 -*-
 from flask import Flask, request, jsonify, render_template, send_file
-from GetVideo import download_video
+from GetVideo import fetch_api
+from dotenv import load_dotenv
+import os
+
+# 加载环境变量
+load_dotenv()
+
+# 从环境变量获取值
+PORT = os.getenv('PORT', 5000)
 
 app = Flask(__name__)
 
@@ -12,7 +20,7 @@ def home():
 @app.route('/download', methods=['POST'])
 def download():
     video_url = request.form['url']
-    result = download_video(video_url)
+    result = fetch_api(video_url)
     if "error" in result:
         return jsonify(result)  # 将错误信息返回给前端
     # 返回视频信息
@@ -31,5 +39,5 @@ def download_file(filename):
     return send_file(file_path, as_attachment=True)
 
 
-if  __name__  == __name__  :
-    app.run(host='0.0.0.0', port=5000, debug=True)
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=int(PORT), debug=True)  # 确保端口是整数
