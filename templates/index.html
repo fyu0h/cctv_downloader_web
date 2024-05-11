@@ -193,6 +193,17 @@
         opacity: 1;  /* 最终可见 */
         transform: translateY(0); /* 恢复到原位 */
     }
+    footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: #f0f0f0;
+            color: #acacac;
+            text-align: center;
+            padding: 10px 0;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+    }
   </style>
 </head>
 <body>
@@ -218,7 +229,9 @@
       </tbody>
     </table>
 </div>
-
+<footer>
+    仅供交流学习，版权归属源站，如有侵权，请联系删除！
+</footer>
 <script>
   function downloadVideo() {
     const input = document.getElementById('video_url');
