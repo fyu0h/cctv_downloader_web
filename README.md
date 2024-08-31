@@ -1,5 +1,8 @@
 # CCTV视频下载器
 
+现在无法下载高清了，推荐使用猫抓
+https://chromewebstore.google.com/detail/%E7%8C%AB%E6%8A%93/jfedfbgedapdagkghmgibemcoggfppbb?hl=zh-CN
+
 本项目提供了一个自动化脚本，用于下载央视视频。使用IDM等工具直接下载的视频可能会出现花屏问题，为解决这一问题，本脚本能自动获取未加密的M3U8视频链接，并下载、合并、转码为MP4格式，确保视频质量。
 
 ## 支持的链接类型
